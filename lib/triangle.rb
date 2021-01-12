@@ -1,51 +1,21 @@
 class Triangle
- attr_accessor :side1, :side2, :side3
-  @sides = []
-
-  def initialize(side1, side2, side3)
-    @side1, @side2, @side3 = side1, side2, side3
-    @sides = [side1, side2, side3]
+  def initialize(*args)
+    @sides = *args.sort
   end
 
   def kind
-    if(negative? == true || valid? == false)
-      begin 
-        raise TriangleError
-      rescue TriangleError => error
-        puts error.message
-      end
-    elsif(equilateral?)
+    raise TriangleError if @sides.any? {|s| s <= 0} or
+      @sides[0]+ @sides[1] <= @sides[2]
+    case @sides.uniq.size
+    when 1
       :equilateral
-    elsif(scalene?)
-      :scalene
-    elsif(isosceles?)
+    when 2
       :isosceles
+    else
+      :scalene
     end
   end
 
-  def negative?
-    @sides.each do |length|
-      if(length <= 0)
-        return true
-      end
-    end
-  end
-
-  def equilateral?
-    (@side1 == @side2) && (@side1 == @side3)
-  end
-
-  def scalene?
-    (@side1 != @side2) && (@side1!= @side3) && (@side2 != @side3)
-  end
-
-  def isosceles?
-    (@side2 == @side3) || (@side1 == @side2) || (@side1 = @side3)
-  end
-
-  def valid?
-    (@side1 + @side2 > @side3) && (@side2 + @side3 > @side1) && (@side1 + @side3 > @side2)
-  end
 
 class TriangleError < StandardError
 def message
