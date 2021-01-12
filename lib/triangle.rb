@@ -7,13 +7,6 @@ class Triangle
     raise TriangleError if @sides.any? {|s| s <= 0} or
       @sides[0]+ @sides[1] <= @sides[2]
     case @sides.uniq.size
-         begin 
-        raise TriangleError
-      rescue TriangleError => error
-        puts error.message
-      end
-
-    
     when 1
       :equilateral
     when 2
